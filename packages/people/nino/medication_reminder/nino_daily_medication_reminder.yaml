@@ -42,7 +42,7 @@ automation:
     trigger:
       # Trigger at 7:30am
       - trigger: time
-        at: "07:30:00"
+        at: "07:00:00"
       # Trigger when the timer is finished
       - trigger: event
         event_type: timer.finished
@@ -69,7 +69,7 @@ automation:
         state: "Awake"
       # After 7:30am and before 10:30am
       - condition: time
-        after: "07:30:00"
+        after: "07:00:00"
         before: "10:30:00"
     actions:
       #  
