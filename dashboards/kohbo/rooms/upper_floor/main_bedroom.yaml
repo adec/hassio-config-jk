@@ -1,13 +1,13 @@
 type: custom:vertical-layout
-title: Kitchen
-path: kitchen
+title: Main Bedroom
+path: main-bedroom
 theme: kohbo
 subview: true
 layout: !include /config/dashboards/templates/includes/kohbo_screen_layout.yaml
 cards:
   - type: custom:button-card
     template: kohbo_page_title
-    name: Kitchen
+    name: Main Bedroom
 
   # 
   # Overview Area for house mode and occupancy
@@ -15,25 +15,25 @@ cards:
   - type: custom:decluttering-card
     template: room_overview
     variables:
-      - mode: input_select.kitchen
-      - occupancy: input_boolean.kitchen_occupied
-      - room: "kitchen"
+      - mode: input_select.main_bedroom
+      - occupancy: input_boolean.main_bedroom_occupied
+      - room: "main_bedroom"
+
 
   # 
   # Climate Overview
   # 
-
   - type: custom:decluttering-card
     template: climate_overview
     variables:
-      - temperature_sensor: sensor.kitchen_awair_temperature
-      - humidity_sensor: sensor.kitchen_awair_humidity
-      - carbon_dioxide_sensor: sensor.kitchen_awair_carbon_dioxide
-      - vocs_sensor: sensor.kitchen_awair_vocs
-      - pm25_sensor: sensor.kitchen_awair_pm2_5
-      - room_name: Kitchen
+      - temperature_sensor: sensor.main_bedroom_awair_temperature
+      - humidity_sensor: sensor.main_bedroom_awair_humidity
+      - carbon_dioxide_sensor: sensor.main_bedroom_awair_carbon_dioxide
+      - vocs_sensor: sensor.main_bedroom_awair_vocs
+      - pm25_sensor: sensor.main_bedroom_awair_pm2_5
+      - room_name: Main Bedroom
 
-
+                    
   # 
   # Lights
   # 
@@ -41,10 +41,10 @@ cards:
     template: section_title
     name: Lights
 
-  # Main Lights
+  # Ceiling Lights
   - type: tile
-    entity: light.kitchen_main_light_switch
-    name: Main Light
+    entity: light.main_bedroom_main_lights
+    name: Ceiling Lights
     icon: mdi:ceiling-light-multiple
     show_entity_picture: false
     hide_state: false
@@ -55,11 +55,23 @@ cards:
     # tap_action:
     #   action: navigate
     #   navigation_path: '#office_ceiling_lights'
-
-  # Table Lights
+  
+  # Desk Lamp
   - type: tile
-    entity: light.kitchen_table_light_switch
-    name: Table Light
+    entity: light.hue_ambiance_lamp_1
+    name: John's Lamp
+    icon: mdi:desk-lamp
+    show_entity_picture: false
+    hide_state: false
+    features:
+      - type: light-brightness
+    features_position: inline
+    vertical: false
+
+  # Shelf Lights
+  - type: tile
+    entity: light.hue_ambiance_lamp_1_2
+    name: Cristina's Lamp
     icon: mdi:desk-lamp
     show_entity_picture: false
     hide_state: false
@@ -75,15 +87,16 @@ cards:
   - type: custom:button-card
     template: section_title
     name: Music
-  
+
   - type: custom:decluttering-card
     template: media_player
     variables:
-      - media_player: media_player.sonos_kitchen
-      - room_name: Kitchen
-      - navigation_path: '#kitchen_media_player'
+      - media_player: media_player.sonos_main_bedroom
+      - room_name: Main Bedroom
+      - navigation_path: '#main_bedroom_media_player'
 
 
+  
   # 
   # Devices
   # 
@@ -95,52 +108,33 @@ cards:
     columns: 2
     square: false
     cards:
+      # Air Purifier
       - type: custom:button-card
-        entity: fan.kitchen_air_purifier
+        entity: fan.main_bedroom_air_purifier
         name: Air Purifier
         template: kohbo_device_air_purifier_entity
 
+      # Desk Outlet
       - type: custom:button-card
-        entity: switch.smart_plug_8_switch
-        name: South Wall Outlet
+        entity: switch.smart_plug_7_switch
+        name: Bedside Outlet
         template: kohbo_device_smart_plug_entity
         variables:
-          power_sensor: sensor.smart_plug_8_active_power
-          confirmation: true
-
-      - type: custom:button-card
-        entity: switch.tradfri_smart_plug_2_switch
-        name: Air Fryer
-        template: kohbo_device_smart_plug_entity
-        variables:
-          confirmation: true
-
-      - type: custom:button-card
-        entity: switch.tradfri_smart_plug_4_switch
-        name: Toaster Oven
-        template: kohbo_device_smart_plug_entity
-        variables:
+          power_sensor: sensor.smart_plug_7_active_power
           confirmation: true
     
+      # Door
       - type: custom:button-card
-        entity: binary_sensor.kitchen_door
-        name: Exterior Doors
+        entity: binary_sensor.main_bedroom_door_sensor_status
+        name: Doors
         template: kohbo_device_door_entity
-
+      
+      # Alexa Dot
       - type: custom:button-card
-        entity: binary_sensor.kitchen_window_sensor
-        name: South Window
-        template: kohbo_device_window_entity
-
-      - type: custom:button-card
-        entity: binary_sensor.kitchen_window_west_middle_sensor
-        name: West Window
-        template: kohbo_device_window_entity
-
-      - type: custom:button-card
-        entity: binary_sensor.kitchen_sink_leak_sensor
-        name: Sink Leak Sensor
+        entity: media_player.kohbo_dot_main_bedroom
+        name: Alexa Dot
         template: kohbo_device_entity
+        icon: phu:alexa-logo
 
 
   # 
@@ -152,36 +146,21 @@ cards:
   - type: entities
     entities:
       # Air Quality Sensor Detections
-      - entity: automation.kitchen_air_quality_sensor_detections
+      - entity: automation.main_bedroom_air_quality_sensor_detections
         name: Air Quality Automations
         icon: mdi:air-filter
         card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
         secondary_info: last-changed
         state_color: true
 
-      # Vacuum Clean Kitchen and Family Room at Night
-      - entity: automation.vacuum_clean_kitchen_and_family_room_at_night
-        name: Clean at Night
-        icon: mdi:robot-vacuum
+      # John Nightlight
+      - entity: automation.main_bedroom_night_light_for_john
+        name: John Nightlight
+        icon: hue:scene-nightlight
         card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
         secondary_info: last-changed
         state_color: true
 
-      # Clean Kitchen When Unoccupied
-      - entity: automation.vacuum_clean_kitchen_when_unoccupied
-        name: Clean When House Unoccupied
-        icon: mdi:robot-vacuum
-        card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
-        secondary_info: last-changed
-        state_color: true
-
-      # Clean Kitchen During Nap
-      - entity: automation.vacuum_clean_kitchen_during_nap
-        name: Clean During Nap
-        icon: mdi:robot-vacuum
-        card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
-        secondary_info: last-changed
-        state_color: true
 
   # 
   # Quick Settings
@@ -191,15 +170,14 @@ cards:
     name: Quick Settings
   - type: entities
     entities:
-      # Speech Notifications Toggle
-      - entity: input_boolean.kitchen_speech_notifications
+      - entity: input_boolean.main_bedroom_speech_notifications
         name: Speech Notifications
         card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
         secondary_info: last-changed
         state_color: true
 
       # Lighting Automations Toggle
-      - entity: input_boolean.kitchen_lighting_automations
+      - entity: input_boolean.main_bedroom_lighting_automations
         name: Lighting Automations
         icon: kohbo:kohbo-light-2
         card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
@@ -207,7 +185,7 @@ cards:
         state_color: true
 
       # Adaptive Lighting Toggle
-      - entity: switch.adaptive_lighting_kitchen
+      - entity: switch.adaptive_lighting_main_bedroom
         name: Adaptive Lighting
         icon: mdi:theme-light-dark
         card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
@@ -215,13 +193,14 @@ cards:
         state_color: true
 
       # Adaptive Lighting Toggle
-      - entity: switch.adaptive_lighting_sleep_mode_kitchen
+      - entity: switch.adaptive_lighting_sleep_mode_main_bedroom
         name: Adaptive Lighting Sleep Mode
         icon: mdi:theme-light-dark
         card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
         secondary_info: last-changed
         state_color: true
-
+        
+        
 
   # 
   # Sensors
@@ -231,23 +210,31 @@ cards:
     name: Sensors
   - type: entities
     entities:
-      # Presence Sensor
+      # BLE Base Station
       - type: custom:template-entity-row
-        icon: kohbo:kohbo-room-occupancy
-        name: Presence Sensor
-        entity: binary_sensor.kitchen_presence_sensor
-        state: !include /config/dashboards/templates/includes/cards/kohbo_entity_row_occupancy_state_display.yaml
-        secondary: "{{ states['binary_sensor.kitchen_presence_sensor'].last_changed | relative_time }} ago"
+        icon: mdi:bluetooth
+        name: BLE Base Station
+        entity: binary_sensor.espresense_main_bedroom
+        state: "{{ 'Connected' if states['binary_sensor.espresense_main_bedroom'].state == 'on' else 'Disconnected' }}"
+        secondary: "{{ states['binary_sensor.espresense_main_bedroom'].last_changed | relative_time }} ago"
         card_mod: !include /config/dashboards/templates/includes/kohbo_entities_entity_row.yaml
+        color: !include /config/dashboards/templates/includes/kohbo_entities_entity_icon_color.yaml
+
+      - type: custom:template-entity-row
+        entity: binary_sensor.main_bedroom_west_presence
+        name: West Presence
+        state: !include /config/dashboards/templates/includes/cards/kohbo_entity_row_occupancy_state_display.yaml
+        secondary: "{{ states['binary_sensor.main_bedroom_west_presence'].last_changed | relative_time }} ago"
+        card_mod: !include /config/dashboards/templates/includes/kohbo_entity_item_layout.yaml
         color: !include /config/dashboards/templates/includes/kohbo_entities_entity_icon_color.yaml
         
       # Occupancy Sensor
       - type: custom:template-entity-row
         icon: kohbo:kohbo-room-occupancy
         name: Occupancy Sensor
-        entity: binary_sensor.kitchen_motion_sensor_occupancy
+        entity: binary_sensor.main_bedroom_motion_sensor_occupancy
         state: !include /config/dashboards/templates/includes/cards/kohbo_entity_row_occupancy_state_display.yaml
-        secondary: "{{ states['binary_sensor.kitchen_motion_sensor_occupancy'].last_changed | relative_time }} ago"
+        secondary: "{{ states['binary_sensor.main_bedroom_motion_sensor_occupancy'].last_changed | relative_time }} ago"
         card_mod: !include /config/dashboards/templates/includes/kohbo_entity_item_layout.yaml
         color: !include /config/dashboards/templates/includes/kohbo_entities_entity_icon_color.yaml
 
@@ -255,27 +242,11 @@ cards:
       - type: custom:template-entity-row
         icon: mdi:motion-sensor
         name: Motion Sensor
-        entity: binary_sensor.kitchen_motion_sensor_status
+        entity: binary_sensor.main_bedroom_motion_sensor
         state: !include /config/dashboards/templates/includes/cards/kohbo_entity_row_occupancy_state_display.yaml
-        secondary: "{{ states['binary_sensor.kitchen_motion_sensor_status'].last_changed | relative_time }} ago"
+        secondary: "{{ states['binary_sensor.main_bedroom_motion_sensor'].last_changed | relative_time }} ago"
         card_mod: !include /config/dashboards/templates/includes/kohbo_entity_item_layout.yaml
         color: !include /config/dashboards/templates/includes/kohbo_entities_entity_icon_color.yaml
-  
-
-  # - type: custom:button-card
-  #   template: section_title
-  #   name: All Sensor
-  #   tap_action:
-  #     action: fire-dom-event
-  #     browser_mod:
-  #       service: browser_mod.popup
-  #       data:
-  #         popup_card_id: kitchen_sensors
-
-  # - type: custom:popup-card
-  #   popup_card_id: kitchen_sensors
-  #   card:
-            
 
   # 
   # Media Player Pop Up
@@ -283,8 +254,9 @@ cards:
   - type: custom:decluttering-card
     template: media_player_pop_up
     variables:
-      - media_player: media_player.sonos_kitchen
-      - hash: '#kitchen_media_player'
+      - media_player: media_player.sonos_main_bedroom
+      - hash: '#main_bedroom_media_player'
+
 
   # 
   # Navbar
