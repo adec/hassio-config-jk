@@ -2,14 +2,14 @@ type: vertical-stack
 cards:
   - type: custom:bubble-card
     card_type: pop-up
-    hash: '#nonna'
+    hash: '#nonno'
     styles: !include /config/dashboards/templates/includes/kohbo_popup_styles.yaml
     
   # 
   # Profile Picture
   # 
   - type: custom:button-card
-    entity: person.mary_falbo
+    entity: person.nonno
     template: people_profile_picture
 
 
@@ -17,10 +17,10 @@ cards:
   # Heading
   # 
   - type: custom:button-card
-    name: "Nonna"
+    name: "Nonno"
     template: kohbo_person_heading
     custom_fields:
-      location: '[[[ return states["person.mary_falbo"].state == "home" ? "Home" : "Away" ]]]'
+      location: '[[[ return states["person.nonno"].state == "home" ? "Home" : "Away" ]]]'
         
 
   # 
@@ -35,42 +35,42 @@ cards:
       - type: custom:template-entity-row
         icon: kohbo:kohbo-person-status
         name: Status
-        entity: input_select.nonna_status
-        secondary: "{{ states['input_select.nonna_status'].last_changed | relative_time }} ago"
+        entity: input_select.nonno_status
+        secondary: "{{ states['input_select.nonno_status'].last_changed | relative_time }} ago"
         color: >
-          {% set status = states['input_select.nonna_status'].state %}
+          {% set status = states['input_select.nonno_status'].state %}
           {% if status == "Home" or status == "Just Arrived" %}
             var(--success-color)
           {% else %}
             var(--light-grey-color)
           {% endif %}
         card_mod: !include /config/dashboards/templates/includes/kohbo_entity_item_layout.yaml
-      # 
-      # Room
-      # 
-      - type: custom:template-entity-row
-        icon: kohbo:kohbo-room-occupancy
-        name: Room
-        entity: sensor.mary_room_presence
-        state: "{{ states('sensor.mary_room_presence') | replace('_', ' ') | title }}"
-        secondary: "{{ states['sensor.mary_room_presence'].last_changed | relative_time }} ago"
-        color: >
-          {% if states['sensor.mary_room_presence'].state == "not_home" %}
-            var(--light-grey-color)
-          {% else %}
-            var(--success-color)
-          {% endif %}
-        card_mod: !include /config/dashboards/templates/includes/kohbo_entity_item_layout.yaml
+      # # 
+      # # Room
+      # # 
+      # - type: custom:template-entity-row
+      #   icon: kohbo:kohbo-room-occupancy
+      #   name: Room
+      #   entity: sensor.nonno_room_presence
+      #   state: "{{ states('sensor.nonno_room_presence') | replace('_', ' ') | title }}"
+      #   secondary: "{{ states['sensor.nonno_room_presence'].last_changed | relative_time }} ago"
+      #   color: >
+      #     {% if states['sensor.nonno_room_presence'].state == "not_home" %}
+      #       var(--light-grey-color)
+      #     {% else %}
+      #       var(--success-color)
+      #     {% endif %}
+      #   card_mod: !include /config/dashboards/templates/includes/kohbo_entity_item_layout.yaml
       # 
       # Unlock Privilege
       # 
-      - entity: input_boolean.nonna_unlock_privilege
+      - entity: input_boolean.nonno_unlock_privilege
         name: Unlock Privilege
         icon: mdi:key
         card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
         secondary_info: last-changed
         state_color: true
-        
+
 
   # 
   # Automations
@@ -80,26 +80,18 @@ cards:
     name: Automations
   - type: entities
     entities:
-      # Nonna Announce Arrival
-      - entity: automation.nonna_announce_arrival
+      # Announce Arrival
+      - entity: automation.nonno_announce_arrival
         name: Announce Arrival
         icon: mdi:home-plus
         card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
         secondary_info: last-changed
         state_color: true
 
-      # Nonna Announce Departure
-      - entity: automation.nonna_announce_departure
+      # Announce Departure
+      - entity: automation.nonno_announce_departure
         name: Announce Departure
         icon: mdi:home-remove
-        card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
-        secondary_info: last-changed
-        state_color: true
-
-      # Nonna Open Garage Upon Arrival
-      - entity: automation.nonna_open_garage_upon_arrival
-        name: Open Garage Upon Arrival
-        icon: mdi:garage-open
         card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
         secondary_info: last-changed
         state_color: true
