@@ -2,19 +2,19 @@ type: vertical-stack
 cards:
   - type: custom:bubble-card
     card_type: pop-up
-    hash: '#nino'
+    hash: '#gianluca'
     styles: !include /config/dashboards/templates/includes/kohbo_popup_styles.yaml
     
   # 
   # Profile Picture
   # 
   - type: custom:button-card
-    entity: person.nino
+    entity: person.gianluca
     template: people_profile_picture
     variables:
       status: |
         [[[
-          if (states['input_select.nino_sleep_state'].state == "Sleep") {
+          if (states['input_select.gianluca_sleep_state'].state == "Sleep") {
             return "sleeping";
           }
         ]]]
@@ -25,10 +25,10 @@ cards:
   # Heading
   # 
   - type: custom:button-card
-    name: "Nino"
+    name: "Gianluca"
     template: kohbo_person_heading
     custom_fields:
-      location: '[[[ return states["input_select.nino_sleep_state"].state ]]]'
+      location: '[[[ return states["input_select.gianluca_sleep_state"].state ]]]'
         
 
   # 
@@ -43,7 +43,7 @@ cards:
       - type: custom:template-entity-row
         icon: kohbo:kohbo-person-status
         name: Status
-        entity: input_select.nino_sleep_state
+        entity: input_select.gianluca_sleep_state
         secondary: "{{ states[config.entity].last_changed | relative_time }} ago"
         color: >
           {% set status = states[config.entity].state %}
@@ -60,7 +60,7 @@ cards:
       - type: custom:template-entity-row
         icon: kohbo:kohbo-bed
         name: Bed Occupancy
-        entity: binary_sensor.nino_bed_occupied
+        entity: binary_sensor.gianluca_bed_occupied
         state: "{{ 'Detected' if states[config.entity].state == 'on' else 'Clear' }}"
         secondary: "{{ states[config.entity].last_changed | relative_time }} ago"
         color: >
@@ -69,27 +69,4 @@ cards:
           {% else %}
             var(--light-grey-color)
           {% endif %}
-        card_mod: !include /config/dashboards/templates/includes/kohbo_entity_item_layout.yaml
-
-
-
-  # 
-  # Medications
-  # 
-  - type: entities
-    card_mod: !include /config/dashboards/templates/includes/people/kohbo_person_entities_layout.yaml
-    entities:
-      - entity: input_boolean.nino_daily_medication_taken
-        icon: kohbo:kohbo-medication
-        name: Daily Medication
-        card_mod: !include /config/dashboards/templates/includes/kohbo_boolean_entity_layout.yaml
-        secondary_info: last-changed
-        state_color: true
-
-      - type: custom:template-entity-row
-        icon: kohbo:kohbo-timer
-        name: Daily Reminder
-        entity: timer.nino_daily_medication_timer
-        state: "{{ states[config.entity].state | title }}"
-        secondary: "{{ states[config.entity].last_changed | relative_time }} ago"
         card_mod: !include /config/dashboards/templates/includes/kohbo_entity_item_layout.yaml
