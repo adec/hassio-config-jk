@@ -1,7 +1,9 @@
 style: |
   :host {
-    --stack-card-gap: 0;
-    --vertical-stack-card-gap: 0 !important;
+    --stack-card-gap: 12px;
+    --vertical-stack-card-gap: 12px !important;
+    --keep-border_radius: true;
+    --keep-background: true;
   }
   ha-card.type-custom-stack-in-card {
     background: var(--darker-primary-color);
@@ -12,4 +14,5 @@ style: |
     box-shadow: none;
     border: none;
     box-shadow: inset 0 4px 8px 0 rgba(0, 0, 0, 0.05);
+    padding: 20px !important;
   }
